@@ -1,0 +1,289 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background: #141414;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .row > .column {
+            padding: 0 8px;
+        }
+
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .column {
+            float: left;
+            width: 40%;
+        }
+
+        /* The Modal (background) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: black;
+        }
+
+        /* Modal Content */
+        .modal-content {
+            position: relative;
+            background-color: #fefefe;
+            margin: auto;
+            padding: 0;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        /* The Close Button */
+        .close {
+            color: white;
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            font-size: 35px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #999;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .mySlides {
+            display: none;
+        }
+
+        .cursor {
+            cursor: pointer;
+        }
+
+
+        img {
+            margin-bottom: -4px;
+
+        }
+
+        .demo {
+            opacity: 0.6;
+        }
+
+
+        img.hover-shadow {
+            transition: 0.3s;
+        }
+
+        .hover-shadow:hover {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+    </style>
+
+
+    <style>
+        .nen-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+        }
+
+        .nen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Hiển thị hình ảnh vừa với kích thước của phần tử cha */
+            filter: brightness(60%); /* Áp dụng hiệu ứng sáng tối (tùy chọn) */
+        }
+
+        .content-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Bạn có thể thay đổi màu nền và độ mờ ở đây */
+            color: white; /* Thiết lập màu chữ cho nội dung (tùy chọn) */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+
+            /* Hiệu ứng frosted glass với độ mờ cao hơn */
+            backdrop-filter: blur(20px); /* Điều chỉnh độ mờ tùy thích */
+            -webkit-backdrop-filter: blur(40px); /* Dành cho trình duyệt Safari */
+
+            /* Thêm một số padding cho nội dung để hiển thị đẹp hơn */
+            padding: 20px;
+        }
+
+        .discover-btn {
+            padding: 15px 40px;
+            background-color: #ff5100;
+            color: #FFFFFF; /* Màu trắng */
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        /* Khi di chuột vào nút */
+        .discover-btn:hover {
+            background-color: #FFA500; /* Màu đỏ cam */
+            text-decoration: none;
+            color: white;
+        }
+        .like-btn {
+            padding: 15px 40px;
+            background-color: white;
+            color: black; /* Màu trắng */
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+        .like-btn:hover {
+            text-decoration: none;
+            color: #ff5100;
+        }
+        .newchaper-btn {
+            padding: 15px 40px;
+            background-color: rgba(255, 255, 255, 0);
+            color: #ff5100;
+            border-radius: 5px;
+            border: 2px solid #ff5100; /* Thêm độ dày và màu sắc cho viền */
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .newchaper-btn:hover {
+            text-decoration: none;
+            color: white;
+        }
+        .add-btn {
+            padding: 15px 40px;
+            background-color: white;
+            color: black; /* Màu trắng */
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+        .add-btn:hover {
+            text-decoration: none;
+            color: deeppink;
+        }
+    </style>
+
+    <div class="nen-container">
+        <img class="nen" src="{{ asset('uploads/image/' ~ products.productImage) }}" alt="Background Image">
+        <div class="content-overlay">
+            <div class="container mt-5 row">
+                <div class="col-3">
+                    <img src="{{ asset('uploads/image/' ~ products.productImage)}}" style="width: 300px; height: 400px; object-fit: cover; border-radius: 5px">
+                </div>
+                <div class="col-9" style="color: white; padding-left: 40px">
+                    <h3><b>{{ products.name }}</b></h3><br>
+                    <div style="font-size: 16px">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-eyeglasses" viewBox="0 0 16 16" style="font-size: 20px">
+                              <path d="M4 6a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm2.625.547a3 3 0 0 0-5.584.953H.5a.5.5 0 0 0 0 1h.541A3 3 0 0 0 7 8a1 1 0 0 1 2 0 3 3 0 0 0 5.959.5h.541a.5.5 0 0 0 0-1h-.541a3 3 0 0 0-5.584-.953A1.993 1.993 0 0 0 8 6c-.532 0-1.016.208-1.375.547zM14 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
+                            </svg>
+                            <a style="color: #dd5f1b; text-decoration: none;">{{ totalViewCount }}</a> View
+                        </span>&ensp;
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16" style="font-size: 20px">
+                              <path d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"/>
+                            </svg>
+                            <a style="color: #dd5f1b; text-decoration: none;">{{ products.likes }}</a> Like
+                        </span>&ensp;
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-journals" viewBox="0 0 16 16" style="font-size: 20px">
+                              <path d="M5 0h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2 2 2 0 0 1-2 2H3a2 2 0 0 1-2-2h1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1H1a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v9a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1H3a2 2 0 0 1 2-2z"/>
+                              <path d="M1 6v-.5a.5.5 0 0 1 1 0V6h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V9h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 2.5v.5H.5a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1H2v-.5a.5.5 0 0 0-1 0z"/>
+                            </svg>
+                            <a style="color: #dd5f1b; text-decoration: none;">{{ products.getChapters().count() }}
+                            </a> Chapter
+                        </span>
+                        <br><br><br>
+                        <a href="#" class="discover-btn"><b>Discover Now</b></a>
+                        <a href="#" class="newchaper-btn"><b>Latest Chapter</b></a>
+                        <a href="{{ path('like_product', {'id': products.id}) }}" class="like-btn"><b>FAVOURITE</b></a>
+                    </div><br><br>{% if app.user %}
+                    <a href="{{ path('chapter_add') }}" class="add-btn"><b>More Chapter</b></a>
+                    <a href="{{path('product_edit',{'id':products.id})}} " class="add-btn"><b>Update</b></a>
+                    <a href="{{ path('product_delete', {'id': products.id}) }}" class="add-btn"><b>Delete</b></a><br><br>
+                    {% endif %}
+                    <div>
+
+                        <p style="font-size: 15px"><span style="color: #6f6f6f">Category:</span>
+                            <a href="#" style="color: #ff5100; text-decoration: none;">
+                                <a style="color: #dd5f1b; text-decoration: none;">{{ products.getCategory().Catname() }}</a></a></p>
+                        <p><span style="color: #6f6f6f">Describe:</span> {{ products.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="nav nav-tabs justify-content-center" style="background: #242424">
+        <li class="active nav-item"><a data-toggle="tab" href="#home">Chapter</a></li>
+        <li class="nav-item"><a data-toggle="tab" href="#menu1">Comment</a></li>
+    </ul>
+    <div class="tab-content" style="color: white"><br><br>
+        <div id="home" class="tab-pane fade in active container" style="background: #1f1f1f; border-radius: 10px">
+            <h3>{{ products.getChapters().count() }} Chapter</h3><br>
+            <h4>Chapter List</h4>
+            <div>
+                <table class="table" style="background: #1f1f1f; color: white;">
+                    <thead>
+                    <tr>
+                        <th>Chapter number</th>
+                        <th>Update</th>
+                        <th>View</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for chapter in products.getChapters() %}
+                    <tr>
+                        <td><a href="{{ path('chapter_details', {'id': chapter.getId()}) }}"
+                               style="text-decoration: none;">{{ chapter.getName() }}</a></td>
+                        <td>{{ chapter.getDate().format('d/m/Y') }}</td>
+                        <td>{{ chapter.getViewCount() }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div id="menu1" class="tab-pane fade container" style="background: #1f1f1f; border-radius: 10px">
+            <h1>Updating in progress</h1>
+        </div>
+    </div>
+<br><br><br><br><br><br><br><br><br>
+
+{% endblock %}

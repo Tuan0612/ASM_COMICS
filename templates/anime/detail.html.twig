@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if animeDetail['coverImage'] is defined and animeDetail['coverImage'] is not null %}
+        <img class="cover-image" src="{{ animeDetail['coverImage']['original'] }}" alt="{{ animeDetail['canonicalTitle'] }} Poster">
+        {% else %}
+            <img class="cover-image" src="{{ asset('uploads/chapter/imager_background.jpg')}}">
+    {% endif %}
+    <div class=" mt-5" style="color: white">
+        <br><br><br>
+        <div class="container cover-text">
+            <div>
+                <h1><b>{{ animeDetail['canonicalTitle'] }}</b></h1>
+                <div style="width: 700px"><b style="color: #666565">Description:</b>
+                    <span class="description-text" id="description-text-collapsed" >{{ animeDetail['synopsis'] | slice(0, 300) }}</span>
+                    <span class="description-text" id="description-text-expanded" style="display: none;">{{ animeDetail['synopsis'] }}</span>
+                    <button onclick="toggleDescription()" id="description-toggle-btn">See More</button>
+                </div>
+            </div>
+            <div>
+                <p><b style="color: #666565">Another Name:</b> {{ animeDetail['titles']['ja_jp'] }}</p>
+                <p><b style="color: #666565">Start Date: </b>{{ animeDetail['startDate'] }}</p>
+                <p><b style="color: #666565">End Date: </b>{{ animeDetail['endDate'] }}</p>
+                <p><b style="color: #666565">Average Rating: </b>{{ animeDetail['averageRating'] }}</p>
+                <p><b style="color: #666565">Minimum Age: </b>{{ animeDetail['ageRatingGuide'] }}</p>
+                <p><b style="color: #666565">Category: </b><a style="color: #ea6016">Anime</a></p>
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eyeglasses" viewBox="0 0 16 16" style="font-size: 25px">
+                              <path d="M4 6a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm2.625.547a3 3 0 0 0-5.584.953H.5a.5.5 0 0 0 0 1h.541A3 3 0 0 0 7 8a1 1 0 0 1 2 0 3 3 0 0 0 5.959.5h.541a.5.5 0 0 0 0-1h-.541a3 3 0 0 0-5.584-.953A1.993 1.993 0 0 0 8 6c-.532 0-1.016.208-1.375.547zM14 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
+                            </svg>
+                    <a style="color: #ea6016">{{ animeDetail['userCount'] }}</a> view
+                </span>&ensp;&ensp;
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16" style="font-size: 25px">
+                              <path d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"/>
+                            </svg>
+                    <a style="color: #ea6016">{{ animeDetail['favoritesCount'] }}</a> like
+                </span>
+            </div>
+        </div>
+        <div class="hhhh">
+            {% if animeDetail['coverImage'] is defined %}
+                <img src="{{ animeDetail['posterImage']['large'] }}" alt="{{ animeDetail['canonicalTitle'] }} Poster" style="width: 350px;">
+            {% endif %}
+            {% if animeDetail['youtubeVideoId'] is defined %}
+                <div style="margin-left: 50px">
+                    <h3 style="color: #dfdfdf; font-size: 35px">
+                        <span style="width: 2px;height: 20px;border-radius: 3px; background-color: #ff5100; color:#ff5100">.</span>
+                        <b> Trailer</b>
+                    </h3><br>
+                    <iframe width="1050" height="500" src="https://www.youtube.com/embed/{{ animeDetail['youtubeVideoId'] }}" frameborder="0" allowfullscreen></iframe>
+                </div>
+            {% endif %}
+        </div>
+    </div><br><br><br>
+
+    <style>
+        .cover-image {
+            position: relative;
+            width: 1600px;
+            height: 750px;
+            margin: 0 auto;
+            padding: 0;
+            background-color: #333333;
+            filter: brightness(25%);
+            z-index: 0;
+        }
+
+        /* Tối màu nền phần đầu carousel */
+        .cover-image:first-child {
+            background-color: rgba(0, 0, 0, 0.82); /* Thay đổi màu tối hơn */
+            filter: brightness(60%); /* Áp dụng hiệu ứng mờ */
+        }
+
+        /* Tối màu nền phần cuối carousel */
+        .cover-image:last-child {
+            background-color: rgba(0, 0, 0, 0.84); /* Thay đổi màu tối hơn */
+            filter: brightness(60%); /* Áp dụng hiệu ứng mờ */
+        }
+        .cover-text {
+            position: absolute;
+            top: 400px;
+            left: 100px; /* Điều chỉnh khoảng cách bên phải của sản phẩm nhỏ */
+            display: flex; /* Sắp xếp sản phẩm nhỏ theo hàng ngang */
+            gap: 20px; /* Khoảng cách giữa các sản phẩm nhỏ */
+            z-index: 1;
+        }
+        #description-toggle-btn {
+            background-color: #ff5100;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #description-toggle-btn:hover {
+            background-color: #FFA500;
+        }
+
+        .hhhh {
+            display: flex; /* Sắp xếp sản phẩm nhỏ theo hàng ngang */
+            margin-left: 100px;
+            margin-top: -80px;
+            margin-left: 30px;
+        }
+    </style>
+    <script>
+        function toggleDescription() {
+            const collapsedText = document.getElementById('description-text-collapsed');
+            const expandedText = document.getElementById('description-text-expanded');
+            const toggleBtn = document.getElementById('description-toggle-btn');
+
+            if (collapsedText.style.display === 'none') {
+                collapsedText.style.display = 'inline';
+                expandedText.style.display = 'none';
+                toggleBtn.innerText = 'Sê More';
+            } else {
+                collapsedText.style.display = 'none';
+                expandedText.style.display = 'inline';
+                toggleBtn.innerText = 'Zoom Out';
+            }
+        }
+    </script>
+{% endblock %}

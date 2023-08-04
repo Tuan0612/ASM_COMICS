@@ -1,0 +1,18 @@
+{% block body %}
+
+    <div class="container mt-3">
+        {% for flash_message in app.session.flashBag.get('notice') %}
+            <div class="alert alert-success">
+                <strong>{{ flash_message }}!!!</strong> A product has been added to the list.!!!
+            </div>
+        {% endfor %}
+        {% for flash_message in app.session.flashBag.get('error') %}
+            <div class="alert alert-danger">
+                <strong>{{ flash_message }}!!!</strong> A product has been removed from the list.!!!
+            </div>
+        {% endfor %}</div>
+
+    <div class="copyright text-center bg-dark text-white py-2" style="height: 60px">
+        <p class="font-rale font-size-14">&copy; Copyrights 2023. Desing By <a href="#" class="color-second">Comics & Read Comics Online </a></p>
+    </div>
+{% endblock %}

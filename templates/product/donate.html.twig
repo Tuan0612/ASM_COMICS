@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Donate{% endblock %}
+
+{% block body %}
+    <div class="container mt-5" style="color: white"><br><br><br>
+        <h3 style="color: #dfdfdf; font-size: 35px">
+            <span style="width: 2px;height: 20px;border-radius: 3px; background-color: #ff5100; color:#ff5100">.</span>
+            <b>Donate to help admin develop the website</b>
+        </h3><br>
+        <div class="donate-item">
+        <div>
+            <img class="donate-image" src="{{ asset('uploads/image/mb.jpg') }}" alt="Donate">
+            <p>MB bank</p>
+        </div>
+        <div>
+            <img class="donate-image" src="{{ asset('uploads/image/mm.jpg') }}" alt="Donate" style="margin-left: 100px">
+            <p style="margin-left: 100px">Momo Wallet  </p>
+        </div>
+        </div>
+    </div><br><br><br><br><br><br>
+    <style>
+        .donate-image{
+            width: 500px;
+            height: 500px;
+        }
+        .donate-item{
+            display: flex;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+{% endblock %}

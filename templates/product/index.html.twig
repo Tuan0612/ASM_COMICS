@@ -1,0 +1,241 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+
+
+    {# First Slide #}
+    <style>
+        .image-slide{
+            width: 1200px;
+            height: 800px;
+        }
+        /* Slide */
+        .carousel-inner {
+            max-width: 2000px;
+            margin: 0 auto;
+            padding: 0;
+            width: 100%;
+            position: relative;
+        }
+
+        .carousel-item {
+            position: relative;
+        }
+
+        .image-slide {
+            width: 1200px;
+            height: 1000px;
+        }
+        #carouselExampleFade {
+            z-index: 0;
+        }
+        .carousel-item .image-slide {
+            background-color: #333333; /* Đổi màu tối hơn tại đây */
+        }
+
+        .carousel-item .image-slide {
+            background-color: #333333; /* Đổi màu tối hơn tại đây */
+            filter: brightness(60%); /* Áp dụng hiệu ứng mờ */
+        }
+
+        /* Tối màu nền phần đầu carousel */
+        .carousel-item:first-child .image-slide {
+            background-color: rgba(0, 0, 0, 0.57); /* Thay đổi màu tối hơn */
+            filter: brightness(60%); /* Áp dụng hiệu ứng mờ */
+        }
+
+        /* Tối màu nền phần cuối carousel */
+        .carousel-item:last-child .image-slide {
+            background-color: rgba(0, 0, 0, 0.66); /* Thay đổi màu tối hơn */
+            filter: brightness(60%); /* Áp dụng hiệu ứng mờ */
+        }
+        .product-thumbnails-container {
+            position: absolute;
+            bottom: 350px;
+            right: 100px; /* Điều chỉnh khoảng cách bên phải của sản phẩm nhỏ */
+            display: flex; /* Sắp xếp sản phẩm nhỏ theo hàng ngang */
+            gap: 20px; /* Khoảng cách giữa các sản phẩm nhỏ */
+            z-index: 1;
+        }
+        .product-thumbnail:hover {
+            opacity: 0.7;
+        }
+
+        .product-thumbnail {
+            width: 60px;
+            height: 70px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-thumbnail img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .product-thumbnail.active {
+            opacity: 0.7;
+        }
+
+        /* Nút "Khám phá ngay" */
+        .discover-btn {
+            position: absolute;
+            bottom: 550px;
+            left: 100px;
+            padding: 15px 40px;
+            background-color: #ff5100;
+            color: #FFFFFF; /* Màu trắng */
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            z-index: 2;
+            text-decoration: none;
+        }
+
+        /* Khi di chuột vào nút */
+        .discover-btn:hover {
+            background-color: #FFA500; /* Màu đỏ cam */
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+
+    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel"
+         style="box-sizing: border-box; padding: -30px; margin: 0;">
+        <div class="carousel-inner"
+             style="max-width: 2000px; margin: 0 auto; padding: 0 0; width: 100%; position: relative; z-index: 1">
+            {% for product in products|slice(0, 12) %}
+                <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
+                    <img src="{{ asset('uploads/image/' ~ product.productImage) }}"
+                         class="d-block w-100 image-slide" alt="Product Image">
+                    <a href="{{ path('product_details', {'id': product.id}) }}" class="discover-btn"><b>DISCOVER NOW</b></a>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row product-thumbnails-container">
+            {% for product in products|slice(0, 12) %}
+                <div class="product-thumbnail" onclick="showSlideImage('{{ asset('uploads/image/' ~ product.productImage) }}')">
+                    <img src="{{ asset('uploads/image/' ~ product.productImage) }}" alt="Product Image">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="container-fluid">
+        <div class="product-group"style="z-index: 2">
+            <h3 style="color: #dfdfdf; font-size: 35px"><span style="width: 2px;height: 20px;border-radius: 3px;
+             background-color: #ff5100; color:#ff5100">.</span>
+                <b> New Chapter - Watch Now!</b>  </h3>
+            <br>
+            {% for product in products|slice(0, 6) %}
+                <a href="{{ path('product_details', {'id': product.id}) }}">
+                    <div class="product-item" style="color: white">
+                        <div class="image-container">
+                            <img class="image-zoom" src="{{ asset('uploads/image/' ~ product.productImage) }}"
+                                 style="width: 240px; height: 350px; border-radius: 5px;object-fit: cover;" alt="Product Image">
+                        </div>
+                        <h4 class="product-name">{{ product.name }}</h4>
+                    </div></a>
+            {% endfor %}
+        </div><br><br><br><br><br><br><br><br><br><br>
+            <h3 style="color: #dfdfdf; font-size: 35px">
+                <span style="width: 2px;height: 20px;border-radius: 3px; background-color: #ff5100; color:#ff5100">.</span>
+                <b> Newly Updated Story</b>
+            </h3>
+            <br>
+            {% for product in products|reverse %} {# Reverse the order of products #}
+                <div class="product-item" style="color: white">
+
+                    <a href="{{ path('product_details', {'id': product.id}) }}" style="text-decoration: none; color: white">
+                        <div class="image-container">
+                            <img class="image-zoom" src="{{ asset('uploads/image/' ~ product.productImage) }}"
+                                 style="width: 240px; height: 350px; border-radius: 5px;object-fit: cover;" alt="Product Image">
+                        </div>
+                        <h4 class="product-name">{{ product.name }}</h4>
+                    </a>
+
+                </div>
+            {% endfor %}
+        </div>
+    </div><br><br><br>
+
+    <style>
+        .product-item {
+            display: inline-block;
+            margin: 10px;
+            width: 220px;
+            text-align: center;
+        }
+
+        .product-name {
+            height: 40px; /* Điều chỉnh chiều cao tối đa của tên sản phẩm */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 18px;
+        }
+        .product-group {
+            position: absolute;
+            top: 750px;
+        }
+        .image-zoom {
+            transition: transform 0.5s ease; /* Thêm hiệu ứng chuyển động trong 0.3 giây */
+        }
+
+        .image-zoom:hover {
+            transform: scale(1.1);
+
+        }
+        .image-container {
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            width: 220px;
+            height: 300px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+
+
+
+    </style>
+    <script>
+        function showSlideImage(imageUrl) {
+            // Lấy đối tượng slide hiện tại
+            var activeSlide = document.querySelector('.carousel-item.active');
+
+            // Thay đổi hình trong slide thành hình sản phẩm được chọn
+            activeSlide.querySelector('.image-slide').src = imageUrl;
+
+            // Loại bỏ class 'active' của tất cả các hình nhỏ
+            var thumbnails = document.querySelectorAll('.product-thumbnail');
+            thumbnails.forEach(function (thumbnail) {
+                thumbnail.classList.remove('active');
+            });
+
+            // Thêm class 'active' cho hình nhỏ được chọn
+            var selectedThumbnail = document.querySelector("img[src='" + imageUrl + "']").parentElement;
+            selectedThumbnail.classList.add('active');
+        }
+        // Hàm chuyển slide tự động
+        function autoSwitchSlide() {
+            let carousel = document.getElementById('carouselExampleFade');
+            let currentIndex = 0;
+            let slides = carousel.getElementsByClassName('carousel-item');
+
+            setInterval(function () {
+                slides[currentIndex].classList.remove('active');
+                currentIndex = (currentIndex + 1) % slides.length;
+                slides[currentIndex].classList.add('active');
+            }, 5000);
+        }
+
+        // Gọi hàm chuyển slide tự động
+        window.onload = autoSwitchSlide;
+    </script>
+{% endblock %}
